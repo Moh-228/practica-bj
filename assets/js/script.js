@@ -9,6 +9,20 @@ let deck = [];
 const tipos = ['C','D','H','S'];
 const especiales = ['A','J','Q','K'];
 
+let puntosJugador = 0,
+    puntosComputadora = 0;
+
+//Referencias del HTML
+const btnPedir   = document.querySelector('#btnPedir');
+
+const divCartasJugador = document.querySelector('#jugador-cartas')
+
+const puntosHTML = document.querySelectorAll('small');
+
+
+
+
+
 // Funcion de creacion de una nueva baraja
 const crearDeck = ()=>{
     for(let i=2;i<=10;i++){
@@ -36,8 +50,6 @@ const pedirCarta = () => {
         throw 'No hay cartas en la baraja';
     }
     const carta = deck.pop();
-    console.log(deck);
-    console.log(carta);
     return carta;
 }
 
@@ -49,18 +61,21 @@ const valorCarta = (carta) => {
     return (isNaN(valor)) ?
             (valor === 'A') ? 11 : 10
             : valor * 1;
-    
-    //FUNCION DE OBTENCION DE VALOR EXTENSA 
-    // let puntos = 0;
-
-    // if(isNaN(valor)){
-        
-    //     puntos = (valor === 'A') ? 11 : 10;
-    // }else{
-        
-    //     puntos = valor*1;
-    // }
 
 }
-const valor = valorCarta(pedirCarta());
-console.log({valor});
+
+//Eventos 
+
+btnPedir.addEventListener('click',() => {
+    const carta = pedirCarta();
+
+    puntosJugador = puntosJugador + valorCarta(carta);
+    puntosHTML[0].innerText = puntosJugador;
+
+    const imgCarta = document.createElement('img');
+
+    imgCarta.src = `assets/cartas/cartas/${ carta }.png`;
+    imgCarta.classList.add('carta');
+
+    divCartasJugador.append( imgCarta );
+});
